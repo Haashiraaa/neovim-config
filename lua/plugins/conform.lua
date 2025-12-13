@@ -5,11 +5,11 @@ return {
     config = function()
       require("conform").setup({
         formatters_by_ft = {
-          python = { "autopep8" },
+          python = { "black" },
         },
 
         format_on_save = {
-          timeout_ms = 1000,
+          timeout_ms = 10000,
           lsp_fallback = true,
         },
       })
