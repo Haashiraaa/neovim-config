@@ -5,7 +5,7 @@ return {
     config = function()
       require("conform").setup({
         formatters_by_ft = {
-          python = { "black" },
+          python = { "autopep8" },
         },
 
         format_on_save = {
