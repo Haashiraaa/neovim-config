@@ -45,6 +45,12 @@ Install required Python tools:
 pip3 install neovim autopep8 ruff
 ```
 
+> neovim → Python ↔ Neovim integration
+autopep8 → formatter
+ruff → fast linter & diagnostics
+
+
+
 ---
 
 ## Installation
@@ -52,7 +58,7 @@ pip3 install neovim autopep8 ruff
 1️⃣ Remove old Neovim config (important)
 
 ```bash
-cd ~/.config
+cd && cd ~/.config
 rm -rf nvim
 ```
 (Yes. Nuke it. Clean slate.)
