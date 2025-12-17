@@ -42,8 +42,8 @@ pip3
 Install required Python tools:
 
 ```bash
-pip3 install neovim autopep8 ruff```
-
+pip3 install neovim autopep8 ruff
+```
 
 ---
 
