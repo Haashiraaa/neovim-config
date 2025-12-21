@@ -1,13 +1,17 @@
 return {
 
-  -- Mason (LSP installer)
+  ------------------------------------------------------------------
+  -- Mason (LSP / tooling installer)
+  ------------------------------------------------------------------
   {
     "williamboman/mason.nvim",
     build = ":MasonUpdate",
     config = true,
   },
 
-  -- Mason bridge for LSP servers
+  ------------------------------------------------------------------
+  -- Mason ↔ LSP bridge
+  ------------------------------------------------------------------
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
@@ -23,13 +27,15 @@ return {
     end,
   },
 
-  -- LSP configuration (NEW API)
+  ------------------------------------------------------------------
+  -- LSP configuration (Neovim 0.11+ API)
+  ------------------------------------------------------------------
   {
     "neovim/nvim-lspconfig",
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Common keymaps
+      -- Shared LSP keymaps
       local on_attach = function(_, bufnr)
         local opts = { buffer = bufnr, silent = true }
 
@@ -41,39 +47,66 @@ return {
         vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
       end
 
-      -- PYRIGHT
+      --------------------------------------------------------------
+      -- PYTHON (Pyright)
+      --------------------------------------------------------------
       vim.lsp.config.pyright = {
         capabilities = capabilities,
         on_attach = on_attach,
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "strict", -- change to "strict" to feel a world of pain
+	      diagnosticSeverityOverrides = {
+  	        reportMissingTypeStubs = "none",
+  		reportUnknownVariableType = "warning",
+  		reportUnknownMemberType = "warning",
+	      },
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "workspace",
+            },
+          },
+        },
       }
       vim.lsp.enable("pyright")
 
+      --------------------------------------------------------------
       -- TYPESCRIPT / JAVASCRIPT
-      vim.lsp.config.ts_ls = {
+      --------------------------------------------------------------
+      vim.lsp.config.tsserver = {
         capabilities = capabilities,
         on_attach = on_attach,
       }
-      vim.lsp.enable("ts_ls")
+      vim.lsp.enable("tsserver")
 
-      -- LUA (for Neovim config)
+      --------------------------------------------------------------
+      -- LUA (Neovim config)
+      --------------------------------------------------------------
       vim.lsp.config.lua_ls = {
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
-          Lua = { diagnostics = { globals = { "vim" } } },
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
         },
       }
       vim.lsp.enable("lua_ls")
     end,
   },
 
+  ------------------------------------------------------------------
   -- Diagnostics UI
+  ------------------------------------------------------------------
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("trouble").setup({})
-      vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>")
+      vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true })
     end,
   },
 
