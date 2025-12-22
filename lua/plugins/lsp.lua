@@ -56,9 +56,9 @@ return {
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = "strict", -- change to "strict" to feel a world of pain
+              typeCheckingMode = "basic", -- change to "strict" to feel a world of pain
 	      diagnosticSeverityOverrides = {
-  	        reportMissingTypeStubs = "none",
+  	        reportMissingTypeStubs = "warning",
   		reportUnknownVariableType = "warning",
   		reportUnknownMemberType = "warning",
 	      },
