@@ -56,11 +56,20 @@ return {
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = "basic", -- change to "strict" to feel a world of pain
-	      diagnosticSeverityOverrides = {
-  	        reportMissingTypeStubs = "warning",
-  		reportUnknownVariableType = "warning",
-  		reportUnknownMemberType = "warning",
+              typeCheckingMode = "strict", -- change to "strict" to feel a world of pain
+              diagnosticSeverityOverrides = {
+                  reportMissingTypeStubs = "none",
+                  reportUnknownVariableType = "warning",
+                  reportUnknownMemberType = "none",
+              	  
+		  -- keep these ON (important)
+                  reportOptionalSubscript = "error",
+                  reportOptionalMemberAccess = "warning",
+                  reportOptionalCall = "error",
+                  reportGeneralTypeIssues = "error",
+                  reportReturnType = "error",
+		  reportUnusedVariable = "none",
+
 	      },
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
