@@ -5,6 +5,8 @@ vim.opt.undofile = true
 vim.opt.backup = true
 vim.opt.writebackup = true
 
+vim.o.background = "dark"
+
 local home = vim.fn.expand("~")
 vim.opt.undodir = home .. "/.local/state/nvim/undo//"
 vim.opt.backupdir = home .. "/.local/state/nvim/backup//"

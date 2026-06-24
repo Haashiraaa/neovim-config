@@ -83,26 +83,12 @@ return {
       })
 
       -- LSP (just Python right now)
-      
       vim.lsp.config("pyright", {
         capabilities = capabilities,
       })
-      
+
       vim.lsp.enable("pyright")
 
-    end
-  },
-
-  -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "python", "lua", "vim" },
-        highlight = { enable = true },
-        indent = { enable = true },
-      })
     end
   },
 
