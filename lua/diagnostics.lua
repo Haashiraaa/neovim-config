@@ -1,31 +1,30 @@
+local severity = vim.diagnostic.severity
+
 vim.diagnostic.config({
   virtual_text = {
     prefix = "●",
     spacing = 4,
   },
-  signs = true,
+  -- Pretty diagnostic icons (needs a Nerd Font)
+  signs = {
+    text = {
+      [severity.ERROR] = "",
+      [severity.WARN] = "",
+      [severity.HINT] = "",
+      [severity.INFO] = "",
+    },
+    numhl = {
+      [severity.ERROR] = "DiagnosticSignError",
+      [severity.WARN] = "DiagnosticSignWarn",
+      [severity.HINT] = "DiagnosticSignHint",
+      [severity.INFO] = "DiagnosticSignInfo",
+    },
+  },
   underline = true,
   update_in_insert = false,
   severity_sort = true,
   float = {
     border = "rounded",
-    source = "always",
+    source = true,
   },
 })
-
--- Pretty diagnostic icons (optional flex 💅)
-local diagnostic_signs = {
-  Error = "",
-  Warn  = "",
-  Hint  = "",
-  Info  = "",
-}
-
-for type, icon in pairs(diagnostic_signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, {
-    text = icon,
-    texthl = hl,
-    numhl = hl,
-  })
-end

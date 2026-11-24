@@ -1,9 +1,6 @@
 return {
 
-  -- LSP + CMP + Snippets
-  {
-    "neovim/nvim-lspconfig",
-  },
+  -- Completion engine + sources + snippets
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -17,8 +14,6 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Autopairs
       require("nvim-autopairs").setup({})
@@ -46,7 +41,7 @@ return {
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
+            elseif luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
@@ -58,7 +53,7 @@ return {
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
+            elseif luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
             else
               fallback()
@@ -79,17 +74,9 @@ return {
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
-        }
+        },
       })
-
-      -- LSP (just Python right now)
-      vim.lsp.config("pyright", {
-        capabilities = capabilities,
-      })
-
-      vim.lsp.enable("pyright")
-
-    end
+    end,
   },
 
 }

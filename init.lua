@@ -1,29 +1,22 @@
-
-
-
 -- =========================
--- Core safety options (DO NOT SKIP)
+-- Neovim config entry point
+-- Requires Neovim 0.11+ (developed and tested on 0.12)
 -- =========================
 
-vim.opt.termguicolors = true
-vim.cmd("colorscheme ron")
-vim.opt.undofile = true
-vim.opt.backup = true
-vim.opt.writebackup = true
+-- Leader must be set BEFORE lazy.nvim loads (backslash = Neovim's default)
+vim.g.mapleader = "\\"
+vim.g.maplocalleader = "\\"
 
-vim.o.background = "dark"
-
-local home = vim.fn.expand("~")
-vim.opt.undodir = home .. "/.local/state/nvim/undo//"
-vim.opt.backupdir = home .. "/.local/state/nvim/backup//"
-vim.opt.directory = home .. "/.local/state/nvim/swap//"
+-- Core options (undo/backup safety, UI) and 4-space indentation everywhere
+require("options")
+require("indent")
 
 -- =========================
 -- Lazy.nvim bootstrap
 -- =========================
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system({
+  local out = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -31,19 +24,32 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "https://github.com/folke/lazy.nvim.git",
     lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins", {
+require("lazy").setup({
+  spec = {
+    { import = "plugins" },
+  },
   checker = {
     enabled = true, -- Automatically check for updates
   },
 })
 
 -- =========================
--- Keymaps
+-- Keymaps & diagnostics
 -- =========================
 require("keymaps")
+require("diagnostics")
 
 -- =========================
 -- UI

@@ -11,6 +11,7 @@ end, { desc = "Show diagnostic error" })
 vim.o.updatetime = 250
 
 vim.api.nvim_create_autocmd("CursorHold", {
+  group = vim.api.nvim_create_augroup("DiagnosticFloatOnHold", { clear = true }),
   callback = function()
     vim.diagnostic.open_float(nil, { focus = false })
   end,
