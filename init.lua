@@ -1,6 +1,12 @@
+
+
+
 -- =========================
 -- Core safety options (DO NOT SKIP)
 -- =========================
+
+vim.opt.termguicolors = true
+vim.cmd("colorscheme ron")
 vim.opt.undofile = true
 vim.opt.backup = true
 vim.opt.writebackup = true
